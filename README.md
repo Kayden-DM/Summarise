@@ -1,29 +1,50 @@
-Abbreviation Expander
-A GUI Python app built with CustomTkinter and the keyboard library that registers global text abbreviations — type a shortcut anywhere on your system and it expands into the full text you defined.
+## Abbreviation Expander
+A desktop text expander built with CustomTkinter and the keyboard module. It lets the user define shortcut abbreviations that automatically expand into full text anywhere on the system.
 
-Concepts Used
-keyboard.add_abbreviation() — registers a global hotstring that fires system-wide, replacing the shortcut with the full text as you type.
+## Features
+Add Abbreviations — Enter a shortcut and its full text, then click Add to save and activate it.
 
-keyboard.unhook_all() — clears all previously registered hooks before re-registering, so the running state always matches the saved data.
+Global Expansion — Uses keyboard.add_abbreviation() so shortcuts expand system-wide, not just inside the app.
 
-JSON Persistence — load() and save() read and write abbreviations.json, restoring abbreviations on startup.
+Persistent Storage — Abbreviations are saved to abbreviations.json and reloaded on startup.
 
-Features
-Global Expansion — shortcuts work in any application, not just inside the app window.
+Live List — A scrollable list shows every saved shortcut and its expansion.
 
-Add & Remove Entries — enter a shortcut and full text to add; click ✕ next to any row to delete it.
+Remove Entries — Each row has a ✕ button to delete that abbreviation.
 
-Live Status — the status label shows how many abbreviations are currently active.
+Clear All — Removes every abbreviation and saves the empty list.
 
-Clear All — wipes every entry and unregisters all hooks in one action.
+Active Counter — Displays how many abbreviations are currently active.
 
-Dark Mode UI — CustomTkinter interface with a blue accent theme.
+Dark Mode UI — CustomTkinter dark appearance with a blue accent theme.
 
-Improvements
-Handle Invalid JSON on Load — json.load will crash the app if abbreviations.json is corrupted or empty; wrap it in a try/except and fall back to {}.
+## Technologies Used
+text
+| Technology | Purpose |
+|---|---|
+| Python | Application logic |
+| `customtkinter` | Desktop GUI |
+| `keyboard` | Registers global abbreviations |
+| `json` | Saves and loads abbreviations |
+| `os.path.exists()` | Checks whether the save file exists |
+| `dict` | Stores shortcuts mapped to full text |
+| `dict comprehension` | Filters out a removed shortcut |
+<!-- -->
+## How to Use It
+Install Python 3.6 or newer from python.org and make sure it's added to your PATH.
 
-Close the File Handles — load() and save() open files without closing them; use a with block to avoid leaving handles open.
+Install the required packages by running pip install customtkinter keyboard.
 
-Validate the Shortcut — add() accepts any string, including spaces or empty-adjacent values; strip input and reject shortcuts containing whitespace, which keyboard.add_abbreviation can't reliably match.
+Save the code as abbreviation_expander.py.
 
-Clean Shutdown — call keyboard.unhook_all() on window close (root.protocol("WM_DELETE_WINDOW", ...)) so hooks don't linger after the app exits.
+Open a terminal in the folder containing the file.
+
+Run python abbreviation_expander.py (on some systems you may need to run it as administrator for the keyboard hook to work).
+
+Type a shortcut and its full text, click Add, then use the shortcut in any text field to expand it.
+
+## Improvements
+Close files properly — load() and save() call open() without a with block, so file handles are left open; wrapping them in with open(...) as f: ensures they're closed correctly.
+
+Fix the trailing space logic — entry_f.get() + str(" ") always appends a space even if the full text already ends with one, which can produce double spaces; checking with if not f.endswith(" ") before appending would prevent that.
+
