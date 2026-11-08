@@ -19,7 +19,6 @@ Active Counter — Displays how many abbreviations are currently active.
 Dark Mode UI — CustomTkinter dark appearance with a blue accent theme.
 
 ## Technologies Used
-text
 | Technology | Purpose |
 |---|---|
 | Python | Application logic |
